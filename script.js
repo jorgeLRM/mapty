@@ -25,10 +25,24 @@ if (navigator.geolocation) {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        L.marker(coords)
+        map.on('click', function(mapEvent) {
+          console.log(mapEvent);
+          const { lat, lng } = mapEvent.latlng;
+
+          L.marker([lat, lng])
             .addTo(map)
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .bindPopup(
+              L.popup({
+                maxWidth: 250,
+                minWidth: 100,
+                autoClose: false,
+                closeOnClick: false,
+                className: 'running-popup'
+              })
+            )
+            .setPopupContent('Workout')
             .openPopup();
+        });
     },
     function () {
         alert('Could not get your position');
